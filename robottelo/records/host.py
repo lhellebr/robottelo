@@ -13,6 +13,7 @@ from robottelo.records.domain import Domain
 from robottelo.records.smartproxy import SmartProxy
 from robottelo.records.partitiontable import PartitionTable
 from robottelo.records.operatingsystem import OperatingSystem
+from robottelo.records.medium import Medium
 
 
 class HostApi(ApiCrud):
@@ -28,7 +29,8 @@ class HostApi(ApiCrud):
                      "domain_id",
                      "puppet_proxy_id",
                      "ptable_id",
-                     "operatingsystem_id"]
+                     "operatingsystem_id",
+                     "medium_id"]
 
 
 class Host(records.Record):
@@ -45,6 +47,7 @@ class Host(records.Record):
     puppet_proxy = records.RelatedField(SmartProxy)
     operatingsystem = records.RelatedField(OperatingSystem)
     ptable = records.RelatedField(PartitionTable)
+    medium = records.RelatedField(Medium)
 
     def _post_init(self):
         """Ensures, that certain fields are consistent
@@ -54,6 +57,7 @@ class Host(records.Record):
         self.architecture.operatingsystem = [self.operatingsystem]
         self.ptable.operatingsystem = [self.operatingsystem]
         self.operatingsystem.ptables = [self.ptable]
+        self.medium.operatingsystem = [self.operatingsystem]
 
     class Meta:
         """Linking record definition with api implementation.
