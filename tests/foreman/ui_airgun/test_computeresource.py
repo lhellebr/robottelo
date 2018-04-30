@@ -3,7 +3,7 @@ from robottelo.decorators import parametrize
 from robottelo.config import settings
 
 
-@parametrize('name', valid_data_list())
+@parametrize('name', **valid_data_list('ui'))
 def test_positive_create_docker(session, name):
     docker_url = settings.docker.external_url
     with session:
@@ -15,7 +15,7 @@ def test_positive_create_docker(session, name):
         assert session.computeresource.search(name) == name
 
 
-@parametrize('name', valid_data_list())
+@parametrize('name', **valid_data_list('ui'))
 def test_positive_create_libvirt(session, name):
     libvirt_url = settings.compute_resources.libvirt_hostname
     with session:
@@ -28,7 +28,7 @@ def test_positive_create_libvirt(session, name):
         assert session.computeresource.search(name) == name
 
 
-@parametrize('name', valid_data_list())
+@parametrize('name', **valid_data_list('ui'))
 def test_positive_create_ovirt(session, name):
     rhev_url = settings.rhev.hostname
     username = settings.rhev.username
