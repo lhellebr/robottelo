@@ -74,3 +74,19 @@ def test_positive_delete(session):
         })
         session.computeresource.delete(name)
         assert session.computeresource.search(name) is None
+
+@parametrize('name', valid_data_list())
+def test_positive_v3_wui_can_add_resource(session, name):
+    """Create new RHEV Compute Resource using APIv3 and autoloaded cert"""
+    rhev_url = settings.rhev.hostname
+    username = settings.rhev.username
+    password = settings.rhev.password
+    with session:
+        session.computeresource.create({
+            'name': name,
+            'provider': 'oVirt',
+            'url': rhev_url,
+            'user': username,
+            'password': password,
+        })
+        assert session.computeresource.search(name) == name
