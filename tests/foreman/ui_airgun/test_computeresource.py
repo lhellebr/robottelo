@@ -95,4 +95,5 @@ def test_positive_v3_wui_can_add_resource(session, name, version=3):
 
 @parametrize('name', valid_data_list())
 def test_positive_v4_wui_can_add_resource(session, name):
+    """Create new RHEV Compute Resource using APIv4 and autoloaded cert"""
     test_positive_v3_wui_can_add_resource(session, name, version=4)
