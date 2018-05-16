@@ -1,7 +1,10 @@
 from robottelo.datafactory import gen_string, valid_data_list
-from robottelo.decorators import parametrize
+from robottelo.decorators import fixture, parametrize
 from robottelo.config import settings
 
+@fixture(scope='module')
+def module_org():
+    return entities.Organization().create()
 
 @parametrize('name', **valid_data_list('ui'))
 def test_positive_create_docker(session, name):
