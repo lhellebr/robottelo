@@ -1,6 +1,7 @@
 from robottelo.datafactory import gen_string, valid_data_list
 from robottelo.decorators import fixture, parametrize
 from robottelo.config import settings
+from nailgun import entities
 
 @fixture(scope='module')
 def module_org():
@@ -100,3 +101,14 @@ def test_positive_v3_wui_can_add_resource(session, name, version=3):
 def test_positive_v4_wui_can_add_resource(session, name):
     """Create new RHEV Compute Resource using APIv4 and autoloaded cert"""
     test_positive_v3_wui_can_add_resource(session, name, version=4)
+
+@parametrize('description', **valid_data_list('ui'))
+def test_positive_v3_wui_can_edit_resource(session, module_org, description):
+    rhev_url = settings.rhev.hostname
+    username = settings.rhev.username
+    password = settings.rhev.password
+    with session:
+        cr = entities.OVirtComputeResource(url=rhev_url, user=username,
+                password=password, organization=[module_org]).create()
+        session.computeresource.edit(name=cr.name, values={'description': description})
+        assert entities.OVirtComputeResource(id=cr.id).read().description == description
