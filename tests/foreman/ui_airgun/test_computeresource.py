@@ -103,12 +103,18 @@ def test_positive_v4_wui_can_add_resource(session, name):
     test_positive_v3_wui_can_add_resource(session, name, version=4)
 
 @parametrize('description', **valid_data_list('ui'))
-def test_positive_v3_wui_can_edit_resource(session, module_org, description):
+def test_positive_v3_wui_can_edit_resource(session, module_org, description, version=3):
+    """Edit a RHEV Compute Resource using APIv3 - change description"""
     rhev_url = settings.rhev.hostname
     username = settings.rhev.username
     password = settings.rhev.password
     with session:
         cr = entities.OVirtComputeResource(url=rhev_url, user=username,
-                password=password, organization=[module_org]).create()
+                password=password, organization=[module_org], use_v4=version==4).create()
         session.computeresource.edit(name=cr.name, values={'description': description})
         assert entities.OVirtComputeResource(id=cr.id).read().description == description
+
+@parametrize('description', **valid_data_list('ui'))
+def test_positive_v4_wui_can_edit_resource(session, module_org, description):
+    """Edit a RHEV Compute Resource using APIv4 - change description"""
+    test_positive_v3_wui_can_edit_resource(session, module_org, description, version=4)
