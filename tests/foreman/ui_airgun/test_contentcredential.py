@@ -24,7 +24,7 @@ from robottelo.constants import (
     VALID_GPG_KEY_FILE,
 )
 from robottelo.datafactory import gen_string
-from robottelo.decorators import tier2, upgrade
+from robottelo.decorators import tier2, upgrade, skip_if_bug_open
 from robottelo.helpers import get_data_file, read_data_file
 
 
@@ -237,6 +237,7 @@ class TestGPGKeyProductAssociate(object):
 
     @tier2
     @upgrade
+    @skip_if_bug_open('bugzilla', 1595792)
     def test_positive_add_product_using_repo_discovery(self, session):
         """Create gpg key with valid name and valid gpg key
         then associate it with custom product using Repo discovery method
