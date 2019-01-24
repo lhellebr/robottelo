@@ -67,21 +67,21 @@ def module_org():
     return entities.Organization().create()
 
 
-@fixture(scope='module', autouse=True)
-def repos_collection(module_org):
-    """Adds required repositories, AK, LCE and CV for content host testing"""
-    lce = entities.LifecycleEnvironment(organization=module_org).create()
-    repos_collection = RepositoryCollection(
-        distro=DISTRO_RHEL7,
-        repositories=[
-            RHELAnsibleEngineRepository(cdn=True),
-            SatelliteToolsRepository(),
-            YumRepository(url=FAKE_1_YUM_REPO),
-            YumRepository(url=FAKE_6_YUM_REPO)
-        ]
-    )
-    repos_collection.setup_content(module_org.id, lce.id, upload_manifest=True)
-    return repos_collection
+#@fixture(scope='module', autouse=True)
+#def repos_collection(module_org):
+#    """Adds required repositories, AK, LCE and CV for content host testing"""
+#    lce = entities.LifecycleEnvironment(organization=module_org).create()
+#    repos_collection = RepositoryCollection(
+#        distro=DISTRO_RHEL7,
+#        repositories=[
+#            RHELAnsibleEngineRepository(cdn=True),
+#            SatelliteToolsRepository(),
+#            YumRepository(url=FAKE_1_YUM_REPO),
+#            YumRepository(url=FAKE_6_YUM_REPO)
+#        ]
+#    )
+#    repos_collection.setup_content(module_org.id, lce.id, upload_manifest=True)
+#    return repos_collection
 
 
 @fixture
@@ -515,3 +515,13 @@ def test_positive_virt_who_hypervisor_subscription_status(session):
                 virt_who_hypervisor_host['name'])[0]['Subscription Status'] == 'green'
             chost = session.contenthost.read(virt_who_hypervisor_host['name'])
             assert chost['details']['subscription_status'] == 'Fully entitled'
+
+
+def test_positive_system_purpose_read(session, module_org):
+    with session:
+        import pdb
+        pdb.set_trace()
+        host = "ibm-x3650m4-03-vm02.lab.eng.brq.redhat.com"
+        res = session.contenthost.read(host)
+        pdb.set_trace()
+        print("...")
