@@ -654,3 +654,30 @@ def test_positive_associate_with_custom_profile_with_template(session, rhev_data
             for key, value in values['provider_content'].items()
             if key in cr_profile_data
         }
+
+
+@pytest.mark.stubbed
+@pytest.mark.on_premises_provisioning
+@pytest.mark.tier3
+def test_positive_create_host(session, rhev_data):
+    """Create a host on a RHEV CR
+
+    :id: bb9784dc-5335-4621-92fd-fdc815f23263
+
+    :setup: RHEV CR
+
+    :steps:
+
+        1. Have a compute resource of type rhev.
+        2. Go to Host Create form
+        3. Fill in the form (verify vNIC can be selected for BZ 1771231)
+        4. Submit
+
+    :expectedresults: Host created with correct data
+
+    :BZ: 1771231
+
+    :CaseImportance: High
+
+    :CaseAutomation: Automated
+    """
