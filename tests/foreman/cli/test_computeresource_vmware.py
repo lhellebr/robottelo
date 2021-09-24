@@ -172,3 +172,22 @@ def test_positive_create_with_org_and_loc(vmware):
         }
     )
     assert vmware_cr['name'] == cr_name
+
+
+@pytest.mark.stubbed
+@pytest.mark.tier3
+def test_positive_list_networks(vmware):
+    """List available networks on a CR using `hammer compute-resource networks --id ...`
+
+    :id: 96faae3f-bc64-4147-a7ec-09c868e0a68f
+
+    :customerscenario: true
+
+    :expectedresults: VMware CR's networks are listed
+
+    :BZ: 1756439
+
+    :CaseAutomation: Automated
+
+    :CaseImportance: Medium
+    """
